@@ -15,13 +15,15 @@ interface IRequest {
 }
 
 export default class OrdersRepository {
-  findAll() {
-      throw new Error("Method not implemented.");
-  }
   private ormRepository: Repository<Order>;
 
   constructor() {
     this.ormRepository = AppDataSource.getRepository(Order);
+  }
+
+  public async findAll(): Promise<Order[]> {
+    const orders = await this.ormRepository.find();
+    return orders;
   }
 
   public async findById(id: string): Promise<Order | null> {

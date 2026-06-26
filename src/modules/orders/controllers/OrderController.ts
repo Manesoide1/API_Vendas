@@ -4,8 +4,21 @@ import ShowOrderService from "../services/ShowOrderService";
 import ListOrderService from "../services/ListOrderService";
 
 export default class OrdersController {
-  constructor() {}
+  public async index(
+    request: Request,
+    response: Response,
+    next: NextFunction
+  ): Promise<Response> {
+    try {
+      const listOrders = new ListOrderService();
+      const orders = await listOrders.execute();
 
+      return response.json(orders);
+    } catch (err) {
+      next(err);
+      return response;
+    }
+  }
 
   public async show(
     request: Request,
